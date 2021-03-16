@@ -37,6 +37,18 @@ var App = /** @class */ (function () {
         player0El.classList.add("player--active");
         player1El.classList.remove("player--active");
     };
+    App.prototype.switchPlayer = function () {
+        // #Reset Scores
+        // ##Reset current score on current player
+        document.querySelector("#current--" + this.activePlayer).textContent = "0";
+        // ##Reset current score to 0
+        this.currentScore = 0;
+        // #Switch to next player
+        this.activePlayer = this.activePlayer === 0 ? 1 : 0;
+        // #Change background for active player
+        player0El.classList.toggle("player--active");
+        player1El.classList.toggle("player--active");
+    };
     App.prototype.rollDice = function () {
         if (this.playing) {
             // #Generate random dice roll
@@ -49,6 +61,9 @@ var App = /** @class */ (function () {
                 // Add dice value to current score
                 this.currentScore += dice;
                 document.querySelector("#current--" + this.activePlayer).textContent = "" + this.currentScore;
+            }
+            if (dice === 1) {
+                this.switchPlayer();
             }
         }
     };
