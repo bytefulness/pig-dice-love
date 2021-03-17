@@ -12,6 +12,8 @@ const btnNew = document.querySelector(".btn--new") as HTMLButtonElement;
 const btnRoll = document.querySelector(".btn--roll") as HTMLButtonElement;
 const btnHold = document.querySelector(".btn--hold") as HTMLButtonElement;
 
+const informationArea = document.querySelector("header") as HTMLElement;
+
 // APP Class
 class App {
   scores!: number[];
@@ -51,6 +53,8 @@ class App {
     player1El.classList.remove("player--winner");
     player0El.classList.add("player--active");
     player1El.classList.remove("player--active");
+
+    this.displayInformation("New game started ⚡️🚀", 3000);
   }
 
   private switchPlayer() {
@@ -104,7 +108,7 @@ class App {
       }`;
 
       // # Check if player's score is >= 100
-      if (this.scores[this.activePlayer] >= 100) {
+      if (this.scores[this.activePlayer] >= 50) {
         this.playing = false;
 
         // ## Add winner class
@@ -117,11 +121,26 @@ class App {
           .querySelector(`.player--${this.activePlayer}`)
           ?.classList.remove("player--active");
         diceEl?.classList.add("hidden");
+
+        // ## Show information text
+        this.displayInformation(
+          `Congratulations Player ${this.activePlayer + 1} 🏆`,
+          5000
+        );
       } else {
         // # Swith to the next player
         this.switchPlayer();
       }
     }
+  }
+
+  private displayInformation(text: string, time = 2000) {
+    informationArea.innerText = text;
+    informationArea.classList.remove("hidden");
+
+    setTimeout(() => {
+      informationArea.classList.add("hidden");
+    }, time);
   }
 }
 

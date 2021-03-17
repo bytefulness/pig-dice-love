@@ -10,6 +10,7 @@ var diceEl = document.querySelector(".dice");
 var btnNew = document.querySelector(".btn--new");
 var btnRoll = document.querySelector(".btn--roll");
 var btnHold = document.querySelector(".btn--hold");
+var informationArea = document.querySelector("header");
 // APP Class
 var App = /** @class */ (function () {
     function App() {
@@ -37,6 +38,7 @@ var App = /** @class */ (function () {
         player1El.classList.remove("player--winner");
         player0El.classList.add("player--active");
         player1El.classList.remove("player--active");
+        this.displayInformation("New game started ⚡️🚀", 3000);
     };
     App.prototype.switchPlayer = function () {
         // #Reset Scores
@@ -76,7 +78,7 @@ var App = /** @class */ (function () {
             // # Add current score to active player's big score
             document.querySelector("#score--" + this.activePlayer).textContent = "" + this.scores[this.activePlayer];
             // # Check if player's score is >= 100
-            if (this.scores[this.activePlayer] >= 100) {
+            if (this.scores[this.activePlayer] >= 50) {
                 this.playing = false;
                 // ## Add winner class
                 (_a = document
@@ -85,12 +87,22 @@ var App = /** @class */ (function () {
                 (_b = document
                     .querySelector(".player--" + this.activePlayer)) === null || _b === void 0 ? void 0 : _b.classList.remove("player--active");
                 diceEl === null || diceEl === void 0 ? void 0 : diceEl.classList.add("hidden");
+                // ## Show information text
+                this.displayInformation("Congratulations Player " + (this.activePlayer + 1) + " \uD83C\uDFC6", 5000);
             }
             else {
                 // # Swith to the next player
                 this.switchPlayer();
             }
         }
+    };
+    App.prototype.displayInformation = function (text, time) {
+        if (time === void 0) { time = 2000; }
+        informationArea.innerText = text;
+        informationArea.classList.remove("hidden");
+        setTimeout(function () {
+            informationArea.classList.add("hidden");
+        }, time);
     };
     return App;
 }());
