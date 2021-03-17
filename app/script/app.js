@@ -17,6 +17,7 @@ var App = /** @class */ (function () {
         // #Event Listeners
         btnNew.addEventListener("click", this.init.bind(this));
         btnRoll.addEventListener("click", this.rollDice.bind(this));
+        btnHold.addEventListener("click", this.holdScore.bind(this));
     }
     App.prototype.init = function () {
         this.scores = [0, 0];
@@ -63,6 +64,30 @@ var App = /** @class */ (function () {
                 document.querySelector("#current--" + this.activePlayer).textContent = "" + this.currentScore;
             }
             if (dice === 1) {
+                this.switchPlayer();
+            }
+        }
+    };
+    App.prototype.holdScore = function () {
+        var _a, _b;
+        if (this.playing) {
+            // # Set holding score to the scores array
+            this.scores[this.activePlayer] += this.currentScore;
+            // # Add current score to active player's big score
+            document.querySelector("#score--" + this.activePlayer).textContent = "" + this.scores[this.activePlayer];
+            // # Check if player's score is >= 100
+            if (this.scores[this.activePlayer] >= 100) {
+                this.playing = false;
+                // ## Add winner class
+                (_a = document
+                    .querySelector(".player--" + this.activePlayer)) === null || _a === void 0 ? void 0 : _a.classList.add("player--winner");
+                // ## Remove player active class
+                (_b = document
+                    .querySelector(".player--" + this.activePlayer)) === null || _b === void 0 ? void 0 : _b.classList.remove("player--active");
+                diceEl === null || diceEl === void 0 ? void 0 : diceEl.classList.add("hidden");
+            }
+            else {
+                // # Swith to the next player
                 this.switchPlayer();
             }
         }

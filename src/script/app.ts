@@ -25,6 +25,7 @@ class App {
     // #Event Listeners
     btnNew.addEventListener("click", this.init.bind(this));
     btnRoll.addEventListener("click", this.rollDice.bind(this));
+    btnHold.addEventListener("click", this.holdScore.bind(this));
   }
 
   private init() {
@@ -88,6 +89,36 @@ class App {
       }
 
       if (dice === 1) {
+        this.switchPlayer();
+      }
+    }
+  }
+
+  private holdScore() {
+    if (this.playing) {
+      // # Set holding score to the scores array
+      this.scores[this.activePlayer] += this.currentScore;
+      // # Add current score to active player's big score
+      document.querySelector(`#score--${this.activePlayer}`)!.textContent = `${
+        this.scores[this.activePlayer]
+      }`;
+
+      // # Check if player's score is >= 100
+      if (this.scores[this.activePlayer] >= 100) {
+        this.playing = false;
+
+        // ## Add winner class
+        document
+          .querySelector(`.player--${this.activePlayer}`)
+          ?.classList.add("player--winner");
+
+        // ## Remove player active class
+        document
+          .querySelector(`.player--${this.activePlayer}`)
+          ?.classList.remove("player--active");
+        diceEl?.classList.add("hidden");
+      } else {
+        // # Swith to the next player
         this.switchPlayer();
       }
     }
