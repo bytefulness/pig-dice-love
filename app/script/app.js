@@ -65,7 +65,7 @@ var App = /** @class */ (function () {
                 this.currentScore += dice;
                 document.querySelector("#current--" + this.activePlayer).textContent = "" + this.currentScore;
             }
-            if (dice === 1) {
+            else {
                 this.switchPlayer();
             }
         }
