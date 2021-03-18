@@ -91,6 +91,7 @@ class App {
           `#current--${this.activePlayer}`
         )!.textContent = `${this.currentScore}`;
       } else {
+        this.displayInformation("You've lost all current score 🤭", 3000);
         this.switchPlayer();
       }
     }
